@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Books</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .status-available { color: green; font-weight: bold; }
+        .status-borrowed { color: orange; font-weight: bold; }
+        .status-reserved { color: purple; font-weight: bold; }
+        .back-link { display: inline-block; margin-top: 20px; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<h1>Book Collection</h1>
+
+<a th:href="@{/}" class="back-link">&larr; Back to Home</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th-each="book : ${books}">
+        <td th:text="${book.title}">Clean Code</td>
+        <td th:text="${book.author}">Robert C. Martin</td>
+        <td th:text="${book.category != null ? book.category.name : 'N/A'}">Technology</td>
+        <td>
+            <span th:text="${book.status}" th:classappend="'status-' + ${#strings.toLowerCase(book.status)}">AVAILABLE</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

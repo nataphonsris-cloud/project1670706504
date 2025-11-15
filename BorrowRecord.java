@@ -1,0 +1,63 @@
+package com.example.library.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.Objects;
+
+@Entity
+@Table(name = "borrow_records")
+public class BorrowRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
+    @Column(nullable = false)
+    private LocalDate borrowDate;
+
+    @Column(nullable = false)
+    private LocalDate dueDate;
+
+    private LocalDate returnDate;
+
+    // --- Getters and Setters ---
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public Book getBook() { return book; }
+    public void setBook(Book book) { this.book = book; }
+
+    public LocalDate getBorrowDate() { return borrowDate; }
+    public void setBorrowDate(LocalDate borrowDate) { this.borrowDate = borrowDate; }
+
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+
+    public LocalDate getReturnDate() { return returnDate; }
+    public void setReturnDate(LocalDate returnDate) { this.returnDate = returnDate; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BorrowRecord that = (BorrowRecord) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        // ใช้ getClass().hashCode() เพื่อให้ได้ค่า hash code ที่สอดคล้องกัน
+        // แม้ว่า id จะยังเป็น null (ก่อน save ลง db)
+        return getClass().hashCode();
+    }
+}
